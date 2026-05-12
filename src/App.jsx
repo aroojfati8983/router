@@ -16,67 +16,168 @@ import Shoes, { ShoesIndex, ShoesDetails } from './components/shoes'
 function App() {
 
   const links = [
-    { path: '/', name: '🏠 Home' },
-    { path: '/cloths', name: '👕 Cloths' },
-    { path: '/makeup', name: '💄 Makeup' },
-    { path: '/jewellery', name: '💍 Jewellery' },
-    { path: '/shoes', name: '👟 Shoes' }
+    { path: '/', name: '🏠', label: 'Home' },
+    { path: '/cloths', name: '👕', label: 'Cloths' },
+    { path: '/makeup', name: '💄', label: 'Makeup' },
+    { path: '/jewellery', name: '💍', label: 'Jewellery' },
+    { path: '/shoes', name: '👟', label: 'Shoes' }
   ]
 
   return (
     <Router>
 
-      {/* Responsive CSS */}
       <style>{`
-
-        *{
-          box-sizing:border-box;
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
         }
 
-        @media(max-width:768px){
+        /* Navbar container */
+        .navbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          max-width: 1400px;
+          margin: 0 auto;
+        }
 
-          .navbar{
-            flex-direction:column;
-            gap:15px;
+        /* Logo */
+        .logo {
+          margin: 0;
+          color: white;
+          font-size: 36px;
+          font-weight: bold;
+          white-space: nowrap;
+        }
+
+        /* Nav links container - FIX: prevents breaking */
+        .nav-links {
+          display: flex;
+          gap: 8px;
+          flex-wrap: nowrap;
+          white-space: nowrap;
+        }
+
+        /* Individual nav link */
+        .nav-link {
+          padding: 8px 14px;
+          color: white;
+          text-decoration: none;
+          font-weight: 500;
+          font-size: 15px;
+          border-radius: 8px;
+          transition: 0.3s;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          white-space: nowrap;
+        }
+
+        /* ========== RESPONSIVE BREAKPOINTS ========== */
+
+        /* Tablet (768px - 1024px) */
+        @media (max-width: 1024px) {
+          .logo {
+            font-size: 28px;
           }
-
-          .logo{
-            font-size:24px !important;
-            text-align:center;
-          }
-
-          .nav-links{
-            justify-content:center !important;
-            gap:8px !important;
-          }
-
-          .nav-link{
-            padding:8px 12px !important;
-            font-size:13px !important;
-          }
-
-          .main{
-            margin-top:130px !important;
-            padding:15px !important;
+          .nav-link {
+            padding: 6px 12px;
+            font-size: 14px;
           }
         }
 
-        @media(max-width:480px){
-
-          .logo{
-            font-size:20px !important;
+        /* Mobile (max-width: 768px) - Links become icons only */
+        @media (max-width: 768px) {
+          .navbar {
+            flex-direction: column;
+            gap: 10px;
+            padding: 8px 0;
           }
-
-          .nav-link{
-            font-size:11px !important;
-            padding:6px 10px !important;
+          
+          .logo {
+            font-size: 20px;
+            white-space: nowrap;
           }
-
-          .main{
-            margin-top:140px !important;
+          
+          .nav-links {
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+          }
+          
+          /* Hide text labels on mobile, show only icons */
+          .nav-link span.label {
+            display: none;
+          }
+          
+          .nav-link {
+            padding: 8px 12px;
+            font-size: 20px;
+            gap: 0;
+          }
+          
+          .main {
+            margin-top: 110px !important;
+            padding: 12px !important;
           }
         }
 
+        /* Small mobile (max-width: 480px) */
+        @media (max-width: 480px) {
+          .logo {
+            font-size: 18px;
+          }
+          
+          .nav-link {
+            padding: 6px 10px;
+            font-size: 18px;
+          }
+          
+          .main {
+            margin-top: 115px !important;
+            padding: 10px !important;
+          }
+        }
+
+        /* Very small (max-width: 360px) */
+        @media (max-width: 360px) {
+          .logo {
+            font-size: 16px;
+          }
+          
+          .nav-link {
+            padding: 5px 8px;
+            font-size: 16px;
+          }
+          
+          .nav-links {
+            gap: 4px;
+          }
+        }
+
+        /* Landscape mode */
+        @media (max-width: 768px) and (orientation: landscape) {
+          .navbar {
+            flex-direction: row;
+            justify-content: space-between;
+          }
+          
+          .logo {
+            font-size: 18px;
+          }
+          
+          .main {
+            margin-top: 80px;
+          }
+        }
+
+        /* Main content area */
+        .main {
+          margin-top: 90px;
+          padding: 20px;
+          min-height: 100vh;
+        }
       `}</style>
 
       <div>
@@ -95,39 +196,15 @@ function App() {
           }}
         >
 
-          <nav
-            className="navbar"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              maxWidth: '1400px',
-              margin: '0 auto'
-            }}
-          >
+          <nav className="navbar">
 
             {/* Logo */}
-            <h1
-              className="logo"
-              style={{
-                margin: 0,
-                color: 'white',
-                fontSize: '36px',
-                fontWeight: 'bold'
-              }}
-            >
+            <h1 className="logo">
               🛍️ All-In-One Store
             </h1>
 
-            {/* Links */}
-            <div
-              className="nav-links"
-              style={{
-                display: 'flex',
-                gap: '12px',
-                flexWrap: 'wrap'
-              }}
-            >
+            {/* Links - on mobile only icons show */}
+            <div className="nav-links">
 
               {links.map((item, index) => (
 
@@ -135,14 +212,6 @@ function App() {
                   key={index}
                   to={item.path}
                   className="nav-link"
-                  style={{
-                    padding: '10px 20px',
-                    color: 'white',
-                    textDecoration: 'none',
-                    fontWeight: '500',
-                    borderRadius: '8px',
-                    transition: '0.3s'
-                  }}
                   onMouseEnter={(e) => {
                     e.target.style.background = 'rgba(255,255,255,0.2)'
                   }}
@@ -150,7 +219,8 @@ function App() {
                     e.target.style.background = 'transparent'
                   }}
                 >
-                  {item.name}
+                  <span>{item.name}</span>
+                  <span className="label">{item.label}</span>
                 </Link>
 
               ))}
@@ -160,13 +230,7 @@ function App() {
         </div>
 
         {/* Main Content */}
-        <div
-          className="main"
-          style={{
-            marginTop: '90px',
-            padding: '20px'
-          }}
-        >
+        <div className="main">
 
           <Routes>
 
